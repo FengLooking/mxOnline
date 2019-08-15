@@ -16,7 +16,7 @@ class BannerAdmin(object):
     # 后台数据表显示字段
     list_display = ['title', 'image', 'url', 'index', 'add_time']
     # 搜索功能
-    search_fields = ['title', 'image', 'url', 'index']
+    search_fields = ['title', 'url', 'index']
     # 过滤器
     list_filter = ['title', 'image', 'url', 'index', 'add_time']
 
