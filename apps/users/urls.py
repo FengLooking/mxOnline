@@ -14,9 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
+from django.urls import re_path
+from django.views.generic import TemplateView
+from mxOnline import settings
+from django.conf.urls.static import static
 
 from users import views
 
 urlpatterns = [
-    path('', views.get_home, name='home')
-]
+    path('', TemplateView.as_view(template_name="index.html"), name="index"),
+    path('user_center', TemplateView.as_view(template_name="usercenter-info.html"), name="user_center"),
+    path('login', views.LoginView.as_view(), name="login"),
+    path('logout', views.LogoutView.as_view(), name="logout"),
+    path('register', views.RegisterView.as_view(), name="register"),
+    re_path('^active/(?P<active_code>.*)/$', views.ActiveUserView.as_view(), name="user_active")
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
