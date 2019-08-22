@@ -7,3 +7,6 @@ Django2.2 + Xadmin + Python3.7 + Web
 
 #### install xadmin
 pip3 install https://codeload.github.com/sshwsfc/xadmin/zip/django2
+
+#### 分页
+django-pure-pagination
