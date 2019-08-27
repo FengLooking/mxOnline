@@ -10,6 +10,7 @@ from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from .models import CityDict
 from .models import CourseOrg
 from .models import Teacher
+from .forms import UserAskForm
 # Create your views here.
 
 
@@ -63,3 +64,18 @@ class OrgView(View):
             'hot_orgs': hot_orgs,
             'sort': sort
         })
+
+
+class AddUserAskView(View):
+    """
+    用户咨询
+    """
+    def post(self, request):
+        userask_form = UserAskForm(request.POST)
+        if userask_form.is_valid():
+            print('**************form 正确 保存至数据库*****************')
+            user_ask = userask_form.save(commit=True)
+            return HttpResponse('{"status": "success"}', content_type="application/json")
+        else:
+            print('================添加出错=============')
+            return HttpResponse('{"status": "fail", "msg": "添加出错"}', content_type="application/json")
