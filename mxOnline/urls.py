@@ -22,5 +22,6 @@ urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     path('', include('users.urls')),
     path('captcha', include('captcha.urls')),
-    path('org/', include('organization.urls'))
+    path('org/', include('organization.urls')),
+    path('course/', include('course.urls'))
 ]
