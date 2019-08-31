@@ -7,5 +7,6 @@ from django.conf.urls.static import static
 from course import views
 
 urlpatterns = [
-    path('course_list', views.CourseListView.as_view(), name="course_list")
+    path('course_list', views.CourseListView.as_view(), name="course_list"),
+    re_path('course_detail/(?P<course_id>\d+)/$', views.CourseDetailView.as_view(), name="course_detail")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
