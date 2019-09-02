@@ -8,6 +8,7 @@ from django.urls import reverse
 from .models import Course
 from .models import CourseResource
 from operation.models import UserFavorite
+from operation.models import CourseComments
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
@@ -93,3 +94,44 @@ class CourseVideoView(View):
             "course": course,
             "all_resourses": all_resourses
         })
+
+
+class CommentsView(View):
+    """
+    课程评论
+    """
+    def get(self, request, course_id):
+        course = Course.objects.get(id=int(course_id))
+        all_resourses = CourseResource.objects.filter(course=course)
+        all_comments = CourseComments.objects.all()
+
+        return render(request, 'course-comment.html', {
+            "course": course,
+            "all_resourses": all_resourses,
+            "all_comments": all_comments
+        })
+
+
+class AddCommentsView(View):
+    """
+    用户发表课程评论
+    """
+    def post(self, request):
+        # 判断用户是否登录
+        if not request.user.is_authenticated:
+            print('-----用户未登录--------')
+            return HttpResponse('{"status": "fail", "msg": "用户未登录"}', content_type="application/json")
+
+        course_id = request.POST.get("course_id", 0)
+        comments = request.POST.get("comments", "")
+        if int(course_id) > 0 and comments:
+            course_comment = CourseComments()
+            course = Course.objects.get(id=int(course_id))
+            course_comment.course = course
+            course_comment.comments = comments
+            course_comment.user = request.user
+            course_comment.save()
+
+            return HttpResponse('{"status": "success", "msg": "评论发表成功"}', content_type="application/json")
+        else:
+            return HttpResponse('{"status": "fail", "msg": "评论发表失败"}', content_type="application/json")

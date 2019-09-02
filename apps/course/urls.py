@@ -9,5 +9,8 @@ from course import views
 urlpatterns = [
     path('course_list', views.CourseListView.as_view(), name="course_list"),
     re_path('course_detail/(?P<course_id>\d+)/$', views.CourseDetailView.as_view(), name="course_detail"),
-    re_path('course_video/(?P<course_id>\d+)/$', views.CourseVideoView.as_view(), name="course_video")
+    re_path('course_video/(?P<course_id>\d+)/$', views.CourseVideoView.as_view(), name="course_video"),
+    re_path('course_comment/(?P<course_id>\d+)/$', views.CommentsView.as_view(), name="course_comment"),
+    # 发表评论
+    path('add_comments', views.AddCommentsView.as_view(), name="add_comments")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
