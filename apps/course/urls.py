@@ -12,5 +12,7 @@ urlpatterns = [
     re_path('course_video/(?P<course_id>\d+)/$', views.CourseVideoView.as_view(), name="course_video"),
     re_path('course_comment/(?P<course_id>\d+)/$', views.CommentsView.as_view(), name="course_comment"),
     # 发表评论
-    path('add_comments', views.AddCommentsView.as_view(), name="add_comments")
+    path('add_comments', views.AddCommentsView.as_view(), name="add_comments"),
+    # 播放课程视频
+    re_path('video_play/(?P<video_id>\d+)/$', views.VideoPlayView.as_view(), name="video_play")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
