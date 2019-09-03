@@ -13,6 +13,9 @@
         top: 50%;
         left: 50%;
     }
+    .video-js {
+        height: 700px;
+    }
 </style>
 {% endblock %}
 {% block custom_js %}
@@ -35,8 +38,8 @@
 {% endblock %}
 {% block content %}
 <div id="main">
-    <div style="width:1200px;height:675px; margin-left: 340px">
-        <video poster="http://video-js.zencoder.com/oceans-clip.png" data-setup="{}" id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="1200" >
+    <div style="width:1200px;height:675px; margin-left: 40px">
+        <video poster="http://pic13.nipic.com/20110409/7119492_114440620000_2.jpg" data-setup="{}" id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="1200" >
             <source src="{{ video.url }}" type="video/mp4">
         </video>
     </div>
