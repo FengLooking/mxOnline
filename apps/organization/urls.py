@@ -16,5 +16,10 @@ urlpatterns = [
     re_path('^teacher/(?P<org_id>\d+)/$', views.OrgTeacherView.as_view(), name="org_teacher"),
 
     # 机构收藏
-    path('add_fav/', views.AddFavView.as_view(), name="add_fav")
+    path('add_fav/', views.AddFavView.as_view(), name="add_fav"),
+
+    # 授课讲师
+    path('teacher_list', views.TeacherListView.as_view(), name="teacher_list"),
+    # 讲师详情
+    re_path('^teacher_detail/(?P<teacher_id>\d+)/$', views.TeacherDetailView.as_view(), name="teacher_detail")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

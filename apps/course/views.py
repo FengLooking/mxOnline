@@ -20,6 +20,7 @@ from utils.mixin_utils import LoginRequiredMixin
 
 class CourseListView(View):
     def get(self, request):
+        head_page = "course"
         all_course = Course.objects.all().order_by("-add_time")
 
         hot_courses = Course.objects.all().order_by("-click_nums")[:3]
@@ -45,7 +46,8 @@ class CourseListView(View):
         return render(request, 'course-list.html', {
             "all_course": courses,
             "sort": sort,
-            "hot_courses": hot_courses
+            "hot_courses": hot_courses,
+            "head_page": head_page
         })
 
 
@@ -55,6 +57,7 @@ class CourseDetailView(View):
     """
     def get(self,request, course_id):
         course = Course.objects.get(id=int(course_id))
+        head_page = "course"
 
         # 课程点击数
         course.click_nums += 1
@@ -81,7 +84,8 @@ class CourseDetailView(View):
             "course": course,
             "relate_courses": relate_courses,
             "has_fav_course": has_fav_course,
-            "has_fav_org": has_fav_org
+            "has_fav_org": has_fav_org,
+            "head_page": head_page
         })
 
 
@@ -92,6 +96,7 @@ class CourseVideoView(LoginRequiredMixin, View):
     """
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
+        head_page = "course"
 
         course.students += 1
         course.save()
@@ -115,7 +120,8 @@ class CourseVideoView(LoginRequiredMixin, View):
         return render(request, 'course-video.html', {
             "course": course,
             "all_resourses": all_resourses,
-            "relate_courses": relate_courses
+            "relate_courses": relate_courses,
+            "head_page": head_page
         })
 
 
@@ -125,6 +131,7 @@ class CommentsView(LoginRequiredMixin, View):
     """
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
+        head_page = "course"
 
         # 查询用户是否已经关联了该课程
         user_courses = UserCourse.objects.filter(user=request.user, course=course)
@@ -147,7 +154,8 @@ class CommentsView(LoginRequiredMixin, View):
             "course": course,
             "all_resourses": all_resourses,
             "all_comments": all_comments,
-            "relate_courses": relate_courses
+            "relate_courses": relate_courses,
+            "head_page": head_page
         })
 
 
@@ -182,6 +190,7 @@ class VideoPlayView(View):
     """
     def get(self, request, video_id):
         video = Video.objects.get(id=int(video_id))
+        head_page = "course"
 
         print(video.url)
         course = video.lesson.course
@@ -209,5 +218,6 @@ class VideoPlayView(View):
             "course": course,
             "all_resourses": all_resourses,
             "relate_courses": relate_courses,
-            "video": video
+            "video": video,
+            "head_page": head_page
         })

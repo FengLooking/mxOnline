@@ -21,6 +21,7 @@ class OrgView(View):
     function: 课程机构列表
     """
     def get(self, request):
+        head_page = "course_org"
         # 课程机构
         all_orgs = CourseOrg.objects.all()
         hot_orgs = all_orgs.order_by('-click_nums')[:3]
@@ -64,7 +65,8 @@ class OrgView(View):
             'city_id': city_id,
             'category': category,
             'hot_orgs': hot_orgs,
-            'sort': sort
+            'sort': sort,
+            "head_page": head_page
         })
 
 
@@ -199,3 +201,77 @@ class AddFavView(View):
                 return HttpResponse('{"status": "success", "msg": "已经收藏"}', content_type="application/json")
             else:
                 return HttpResponse('{"status": "fail", "msg": "收藏出错"}', content_type="application/json")
+
+
+class TeacherListView(View):
+    """
+    课程讲师列表页
+    """
+    def get(self, request):
+        all_teachers = Teacher.objects.all()
+
+        head_page = "course_teachers"
+
+        # 页面排序
+        sort = request.GET.get('sort', '')
+        if sort:
+            if sort == 'hot':
+                all_teachers = all_teachers.order_by('-click_nums')
+
+        # 讲师排行榜
+        sorted_teacher = Teacher.objects.all().order_by('-click_nums')[:3]
+
+        # 讲师人数
+        teacher_nums = all_teachers.count()
+        print('teacher nums is: %s' % teacher_nums)
+
+        # 对讲师页面进行分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(object_list=all_teachers, per_page=1, request=request)
+
+        teachers = p.page(page)
+
+        return render(request, "teachers-list.html", {
+            "all_teachers": teachers,
+            "sorted_teacher": sorted_teacher,
+            "sort": sort,
+            "teacher_nums": teacher_nums,
+            "head_page": head_page
+        })
+
+
+class TeacherDetailView(View):
+    """
+    讲师详情页
+    """
+    def get(self, request, teacher_id):
+        teacher = Teacher.objects.get(id=int(teacher_id))
+
+        # 收藏功能
+        has_fav_teacher = False
+        has_fav_org = False
+        # 判断用户是否登录
+        if request.user.is_authenticated:
+            if UserFavorite.objects.filter(user=request.user, fav_id=teacher.id, fav_type=3):
+                has_fav_teacher = True
+
+            if UserFavorite.objects.filter(user=request.user, fav_id=teacher.org.id, fav_type=2):
+                has_fav_org = True
+
+        # 讲师的课程
+        teacher_courses = Course.objects.filter(teacher=teacher)
+
+        # 讲师排行榜
+        sorted_teacher = Teacher.objects.all().order_by('-click_nums')[:3]
+
+        return render(request, "teacher-detail.html", {
+            "teacher": teacher,
+            "teacher_courses": teacher_courses,
+            "sorted_teacher": sorted_teacher,
+            "has_fav_teacher": has_fav_teacher,
+            "has_fav_org": has_fav_org
+        })
