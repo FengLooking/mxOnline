@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from users import views
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="index.html"), name="index"),
+    path('', views.IndexView.as_view(), name="index"),
     path('user_center', TemplateView.as_view(template_name="usercenter-info.html"), name="user_center"),
     path('login', views.LoginView.as_view(), name="login"),
     path('logout', views.LogoutView.as_view(), name="logout"),

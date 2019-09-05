@@ -21,7 +21,6 @@ class OrgView(View):
     function: 课程机构列表
     """
     def get(self, request):
-        head_page = "course_org"
         # 课程机构
         all_orgs = CourseOrg.objects.all()
         hot_orgs = all_orgs.order_by('-click_nums')[:3]
@@ -65,8 +64,7 @@ class OrgView(View):
             'city_id': city_id,
             'category': category,
             'hot_orgs': hot_orgs,
-            'sort': sort,
-            "head_page": head_page
+            'sort': sort
         })
 
 
@@ -210,8 +208,6 @@ class TeacherListView(View):
     def get(self, request):
         all_teachers = Teacher.objects.all()
 
-        head_page = "course_teachers"
-
         # 页面排序
         sort = request.GET.get('sort', '')
         if sort:
@@ -239,8 +235,7 @@ class TeacherListView(View):
             "all_teachers": teachers,
             "sorted_teacher": sorted_teacher,
             "sort": sort,
-            "teacher_nums": teacher_nums,
-            "head_page": head_page
+            "teacher_nums": teacher_nums
         })
 
 
