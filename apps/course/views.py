@@ -4,6 +4,7 @@ from django.views.generic.base import View
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.db.models import Q
 
 from .models import Course
 from .models import CourseResource
@@ -23,6 +24,11 @@ class CourseListView(View):
         all_course = Course.objects.all().order_by("-add_time")
 
         hot_courses = Course.objects.all().order_by("-click_nums")[:3]
+
+        # 搜索功能
+        search_keywords = request.GET.get("keywords", "")
+        if search_keywords:
+            all_course = all_course.filter(Q(name__icontains=search_keywords)|Q(desc__icontains=search_keywords)|Q(detail__icontains=search_keywords))
 
         # 排名
         sort = request.GET.get('sort', '')
