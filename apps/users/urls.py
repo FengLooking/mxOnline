@@ -23,12 +23,13 @@ from users import views
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name="index"),
-    path('user_center', TemplateView.as_view(template_name="usercenter-info.html"), name="user_center"),
     path('login', views.LoginView.as_view(), name="login"),
     path('logout', views.LogoutView.as_view(), name="logout"),
     path('register', views.RegisterView.as_view(), name="register"),
     re_path('^active/(?P<active_code>.*)/$', views.ActiveUserView.as_view(), name="user_active"),
     path('forgetpwd', views.ForgetPwdView.as_view(), name="forgetpwd"),
     re_path('^reset/(?P<active_code>.*)/$', views.ResetView.as_view(), name="reset_pwd"),
-    path('modify_pwd', views.ModifyPwdView.as_view(), name="modify_pwd")
+    path('modify_pwd', views.ModifyPwdView.as_view(), name="modify_pwd"),
+    # 个人中心
+    path('user_center', views.UserCenterView.as_view(), name="user_center"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

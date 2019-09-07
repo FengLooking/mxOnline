@@ -17,6 +17,7 @@ from .forms import RegisterForm
 from .forms import ForgetForm
 from .forms import ModifyPwdForm
 from utils import email_send
+from utils.mixin_utils import LoginRequiredMixin
 
 # Create your views here.
 
@@ -158,3 +159,11 @@ class ModifyPwdView(View):
         else:
             email = request.POST.get('email', '')
             return render(request, 'password_reset.html', {'email':email, 'modify_form':modify_form})
+
+
+class UserCenterView(LoginRequiredMixin, View):
+    """
+    用户个人信息
+    """
+    def get(self, request):
+        return render(request, 'usercenter-info.html', {})
