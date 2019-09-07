@@ -32,4 +32,8 @@ urlpatterns = [
     path('modify_pwd', views.ModifyPwdView.as_view(), name="modify_pwd"),
     # 个人中心
     path('user_center', views.UserCenterView.as_view(), name="user_center"),
+    # 修改用户头像
+    path('image_upload', views.UploadImageView.as_view(), name="upload_image"),
+    # 用户中心修改密码
+    path('update_pwd/', views.UpdateUserCenterPwdView.as_view(), name="update_pwd")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
