@@ -31,9 +31,13 @@ urlpatterns = [
     re_path('^reset/(?P<active_code>.*)/$', views.ResetView.as_view(), name="reset_pwd"),
     path('modify_pwd', views.ModifyPwdView.as_view(), name="modify_pwd"),
     # 个人中心
-    path('user_center', views.UserCenterView.as_view(), name="user_center"),
+    path('user_center/', views.UserCenterView.as_view(), name="user_center"),
     # 修改用户头像
     path('image_upload', views.UploadImageView.as_view(), name="upload_image"),
     # 用户中心修改密码
-    path('update_pwd/', views.UpdateUserCenterPwdView.as_view(), name="update_pwd")
+    path('update_pwd/', views.UpdateUserCenterPwdView.as_view(), name="update_pwd"),
+    # 发送邮箱验证码
+    path('send_email_code/', views.SendEmailCodeView.as_view(), name="send_email_code"),
+    # 修改邮箱
+    path('update_email/', views.UpdateEmail.as_view(), name="update_email")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
