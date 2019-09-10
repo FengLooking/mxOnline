@@ -39,5 +39,15 @@ urlpatterns = [
     # 发送邮箱验证码
     path('send_email_code/', views.SendEmailCodeView.as_view(), name="send_email_code"),
     # 修改邮箱
-    path('update_email/', views.UpdateEmail.as_view(), name="update_email")
+    path('update_email/', views.UpdateEmail.as_view(), name="update_email"),
+    # 我的课程
+    path('mycourse/', views.MyCourseView.as_view(), name="mycourse"),
+    # 我收藏的课程机构
+    path('myfav_org/', views.MyFavOrgView.as_view(), name="myfav_org"),
+    # 我收藏的授课讲师
+    path('myfav_teacher/', views.MyFavTeacherView.as_view(), name="myfav_teacher"),
+    # 我收藏的公开课
+    path('myfav_course/', views.MyFavCourseView.as_view(), name="myfav_course"),
+    # 我的消息
+    path('mymessage/', views.MyMessageView.as_view(), name="mymessage")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
