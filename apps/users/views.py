@@ -79,6 +79,9 @@ class LoginView(View):
 
 
 class LogoutView(View):
+    """
+    登出
+    """
     def get(self, request):
         logout(request)
         return HttpResponseRedirect(reverse('index'))
@@ -344,6 +347,12 @@ class MyMessageView(LoginRequiredMixin, View):
     """
     def get(self, request):
         all_messages = UserMessage.objects.filter(user=request.user.id)
+
+        # 用户进入个人消息后清空未读消息的记录
+        all_unread_message = UserMessage.objects.filter(user=request.user.id, has_read=False)
+        for unread_message in all_unread_message:
+            unread_message.has_read = True
+            unread_message.save()
 
         # 对页面进行分页
         try:

@@ -26,7 +26,7 @@ class UserProfile(AbstractUser):
         获取用户未读消息的数量
         """
         from operation.models import UserMessage
-        return UserMessage.objects.filter(user=self.id).count()
+        return UserMessage.objects.filter(user=self.id, has_read=False).count()
 
 
 # 邮箱验证码
