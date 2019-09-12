@@ -16,6 +16,7 @@ from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import UserProfile
 from .models import EmailVerifyRecord
+from .models import Banner
 from .forms import LoginForm
 from .forms import RegisterForm
 from .forms import ForgetForm
@@ -51,7 +52,20 @@ class IndexView(View):
     首页
     """
     def get(self, request):
-        return render(request, 'index.html')
+        # 取出轮播图
+        all_banners = Banner.objects.all().order_by("index")
+
+        courses = Course.objects.filter(is_banner=False)[:6]
+        banner_courses = Course.objects.filter(is_banner=True)[:3]
+
+        course_orgs = CourseOrg.objects.all()[:15]
+
+        return render(request, 'index.html', {
+            "all_banners": all_banners,
+            "courses": courses,
+            "banner_courses": banner_courses,
+            "course_orgs": course_orgs
+        })
 
 
 class LoginView(View):

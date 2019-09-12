@@ -25,6 +25,7 @@ class Course(models.Model):
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
     youneed_know = models.CharField(max_length=300, default="", verbose_name=u"课程须知")
     what_learn = models.CharField(max_length=300, default="", verbose_name=u"能学到的知识")
+    is_banner = models.BooleanField(default=False, verbose_name=u"是否轮播")
 
     class Meta:
         verbose_name = u"课程"
