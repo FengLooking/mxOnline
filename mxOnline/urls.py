@@ -16,12 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+from mxOnline import settings
+from django.views import static
+from django.conf.urls import url
+
 import xadmin
+
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     path('', include('users.urls')),
     path('captcha', include('captcha.urls')),
     path('org/', include('organization.urls')),
-    path('course/', include('course.urls'))
+    path('course/', include('course.urls')),
+    url(r'^static/(?P<path>.*)$', static.serve, {'document_root': settings.STATIC_ROOT}, name='static'),
+    url(r'^media/(?P<path>.*)$', static.serve, {'document_root': settings.MEDIA_ROOT}, name='media')
 ]

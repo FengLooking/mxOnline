@@ -16,8 +16,6 @@ Including another URLconf
 from django.urls import path
 from django.urls import re_path
 from django.views.generic import TemplateView
-from mxOnline import settings
-from django.conf.urls.static import static
 
 from users import views
 
@@ -50,4 +48,9 @@ urlpatterns = [
     path('myfav_course/', views.MyFavCourseView.as_view(), name="myfav_course"),
     # 我的消息
     path('mymessage/', views.MyMessageView.as_view(), name="mymessage")
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+# 全局404页面配置
+handler404 = "users.views.page_not_found"
+
+handler500 = "users.views.page_error"

@@ -1,8 +1,6 @@
 from django.urls import path
 from django.urls import re_path
 from django.views.generic import TemplateView
-from mxOnline import settings
-from django.conf.urls.static import static
 
 from organization import views
 
@@ -22,4 +20,4 @@ urlpatterns = [
     path('teacher_list', views.TeacherListView.as_view(), name="teacher_list"),
     # 讲师详情
     re_path('^teacher_detail/(?P<teacher_id>\d+)/$', views.TeacherDetailView.as_view(), name="teacher_detail")
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

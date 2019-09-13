@@ -381,3 +381,23 @@ class MyMessageView(LoginRequiredMixin, View):
         return render(request, 'usercenter-message.html', {
             "messages": messages
         })
+
+
+def page_not_found(request, exception=404):
+    """
+    404页面
+    """
+    from django.shortcuts import render_to_response
+    resp = render_to_response("404.html", {})
+    resp.status_code = 404
+    return resp
+
+
+def page_error(request, exception=500):
+    """
+    400页面
+    """
+    from django.shortcuts import render_to_response
+    resp = render_to_response("500.html", {})
+    resp.status_code = 500
+    return resp

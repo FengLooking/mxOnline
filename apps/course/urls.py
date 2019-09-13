@@ -1,8 +1,6 @@
 from django.urls import path
 from django.urls import re_path
 from django.views.generic import TemplateView
-from mxOnline import settings
-from django.conf.urls.static import static
 
 from course import views
 
@@ -15,4 +13,4 @@ urlpatterns = [
     path('add_comments', views.AddCommentsView.as_view(), name="add_comments"),
     # 播放课程视频
     re_path('video_play/(?P<video_id>\d+)/$', views.VideoPlayView.as_view(), name="video_play")
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
