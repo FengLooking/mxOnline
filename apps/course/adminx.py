@@ -4,6 +4,17 @@ from .models import Course
 from .models import Lesson
 from .models import Video
 from .models import CourseResource
+from .models import BannerCourse
+
+
+class LessonInline(object):
+    model = Lesson
+    extra = 0
+
+
+class CourseResourceInline(object):
+    model = CourseResource
+    extra = 0
 
 
 class CourseAdmin(object):
@@ -13,6 +24,46 @@ class CourseAdmin(object):
     search_fields = ['name', 'desc', 'detail', 'degree', 'students', 'fav_nums', 'click_nums']
     # 过滤器
     list_filter = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'image', 'click_nums', 'add_time']
+    # 默认排序
+    ordering = ["-click_nums"]
+    # 只读字段 和exclude不能设置同一个字段
+    readonly_fields = ["click_nums"]
+    # 设置不显示字段
+    exclude = ["fav_nums"]
+
+    # 课程里面嵌套章节和课程资源
+    inlines = [LessonInline, CourseResourceInline]
+
+    def queryset(self):
+        qs = super(CourseAdmin, self).queryset()
+        qs_new = qs.filter(is_banner=False)
+        return qs_new
+
+
+class BannerCourseAdmin(object):
+    """
+    一个model注册两个管理器
+    """
+    # 后台数据表显示字段
+    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'image', 'click_nums', 'add_time']
+    # 搜索功能
+    search_fields = ['name', 'desc', 'detail', 'degree', 'students', 'fav_nums', 'click_nums']
+    # 过滤器
+    list_filter = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'image', 'click_nums', 'add_time']
+    # 默认排序
+    ordering = ["-click_nums"]
+    # 只读字段 和exclude不能设置同一个字段
+    readonly_fields = ["click_nums"]
+    # 设置不显示字段
+    exclude = ["fav_nums"]
+
+    # 课程里面嵌套章节和课程资源
+    inlines = [LessonInline, CourseResourceInline]
+
+    def queryset(self):
+        qs = super(BannerCourseAdmin, self).queryset()
+        qs_new = qs.filter(is_banner=True)
+        return qs_new
 
 
 class LessonAdmin(object):
@@ -42,6 +93,7 @@ class CourseResourceAdmin(object):
     list_filter = ['course__name', 'name', 'download', 'add_time']
 
 xadmin.site.register(Course, CourseAdmin)
+xadmin.site.register(BannerCourse, BannerCourseAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
 xadmin.site.register(Video, VideoAdmin)
 xadmin.site.register(CourseResource, CourseResourceAdmin)

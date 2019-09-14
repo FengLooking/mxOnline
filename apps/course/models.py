@@ -50,6 +50,17 @@ class Course(models.Model):
         return self.name
 
 
+class BannerCourse(Course):
+    """
+    一个model注册两个管理器
+    """
+    class Meta:
+        verbose_name = u"轮播课程"
+        verbose_name_plural = verbose_name
+        # proxy=True
+        proxy = True
+
+
 class Lesson(models.Model):
     course = models.ForeignKey(Course, verbose_name=u"课程", on_delete=models.CASCADE)
     name = models.CharField(max_length=100, verbose_name=u"章节名")

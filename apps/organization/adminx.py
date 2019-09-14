@@ -21,6 +21,8 @@ class CourseOrgAdmin(object):
     search_fields = ['name', 'desc', 'click_nums', 'fav_nums', 'address', 'city']
     # 过滤器
     list_filter = ['name', 'desc', 'click_nums', 'fav_nums', 'image', 'address', 'city', 'add_time']
+    # 设置添加课程时选择机构可以搜索
+    relfield_style = "fk_ajax"
 
 
 class TeacherAdmin(object):
