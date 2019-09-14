@@ -29,6 +29,8 @@ urlpatterns = [
     path('captcha', include('captcha.urls')),
     path('org/', include('organization.urls')),
     path('course/', include('course.urls')),
-    url(r'^static/(?P<path>.*)$', static.serve, {'document_root': settings.STATIC_ROOT}, name='static'),
-    url(r'^media/(?P<path>.*)$', static.serve, {'document_root': settings.MEDIA_ROOT}, name='media')
+    # 富文本相关url
+    path('ueditor/', include('DjangoUeditor.urls')),
+    # url(r'^static/(?P<path>.*)$', static.serve, {'document_root': settings.STATIC_ROOT}, name='static'),
+    url(r'^media/(?P<path>.*)$', static.serve, {'document_root': settings.MEDIA_ROOT}, name='media'),
 ]

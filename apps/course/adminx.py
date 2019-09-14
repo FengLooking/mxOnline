@@ -37,6 +37,9 @@ class CourseAdmin(object):
     # 课程里面嵌套章节和课程资源
     inlines = [LessonInline, CourseResourceInline]
 
+    # 集成富文本
+    style_fields = {'detail': 'ueditor'}
+
     # 刷新设置
     # refresh_times = [3, 5]
 
