@@ -5,6 +5,7 @@ from .models import Lesson
 from .models import Video
 from .models import CourseResource
 from .models import BannerCourse
+from organization.models import CourseOrg
 
 
 class LessonInline(object):
@@ -19,7 +20,7 @@ class CourseResourceInline(object):
 
 class CourseAdmin(object):
     # 后台数据表显示字段
-    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'image', 'click_nums', 'add_time']
+    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'image', 'click_nums', 'add_time', 'get_lessons_nums', 'go_to']
     # 搜索功能
     search_fields = ['name', 'desc', 'detail', 'degree', 'students', 'fav_nums', 'click_nums']
     # 过滤器
@@ -28,16 +29,31 @@ class CourseAdmin(object):
     ordering = ["-click_nums"]
     # 只读字段 和exclude不能设置同一个字段
     readonly_fields = ["click_nums"]
+    # 列表页直接可修改字段
+    list_editable = ["degree", "desc"]
     # 设置不显示字段
     exclude = ["fav_nums"]
 
     # 课程里面嵌套章节和课程资源
     inlines = [LessonInline, CourseResourceInline]
 
+    # 刷新设置
+    # refresh_times = [3, 5]
+
+    # 一个model注册两个管理器
     def queryset(self):
         qs = super(CourseAdmin, self).queryset()
         qs_new = qs.filter(is_banner=False)
         return qs_new
+    
+    def save_models(self):
+        # 保存课程的时候统计课程机构的课程数
+        obj = self.new_obj
+        obj.save()
+        if obj.course_org is not None:
+            course_org = obj.course_org
+            course_org.courses_nums = Course.objects.filter(course_org=course_org).count()
+            course_org.save()
 
 
 class BannerCourseAdmin(object):

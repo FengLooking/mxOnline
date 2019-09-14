@@ -35,6 +35,13 @@ class Course(models.Model):
         # 获取课程章节数
         all_lessons = self.lesson_set.all().count()
         return all_lessons
+    # xadmin页面显示
+    get_lessons_nums.short_description = u"章节数"
+
+    def go_to(self):
+        from django.utils.safestring import mark_safe
+        return mark_safe("<a href='http://www.baidu.com'>跳转</a>")
+    go_to.short_description = u"跳转"
     
     def get_learn_users(self):
         # 获取课程学习人数
