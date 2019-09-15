@@ -43,6 +43,13 @@ class CourseAdmin(object):
     # 刷新设置
     # refresh_times = [3, 5]
 
+    # excel导入功能，True为加载导入excel的那个插件，false则不加载
+    import_excel = True
+    def post(self, request, *args, **kwargs):
+        if "excel" in request.FILES:
+            pass
+        return super(CourseAdmin, self).post(request, args, kwargs)
+
     # 一个model注册两个管理器
     def queryset(self):
         qs = super(CourseAdmin, self).queryset()
